@@ -9,9 +9,14 @@ module RepoTools; class Puller
   end
 
   def clean_and_clone
+    return if git_status_checker.up_to_date?
     FileUtils.rm_rf destination_dirname
     clone
     log_clone
+  end
+
+  def git_status_checker
+    GitStatusChecker.new(destination_dirname)
   end
 
   def clone
