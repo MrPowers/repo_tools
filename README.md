@@ -1,8 +1,29 @@
 # RepoTools
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/repo_tools`. To experiment with that code, run `bin/console` for an interactive prompt.
+The RepoTools gem can be used to clone Git repositories into a local application and only reclone the Git repository when it is behind origin/master.
 
-TODO: Delete this and the text above, and describe your gem
+## Usage
+
+The following code will clone the `frontend-generators` in the `/root/path/tmp/test/frontend-generators` directory:
+
+```ruby
+puller = RepoTools::Puller.new("git@github.com:MrPowers/frontend-generators.git", "/root/path", "test")
+puller.clean_and_clone
+```
+
+If origin/master stays the same and you run `#clean_and_clone` again, the repo will not be cloned again (because cloning is an expensive operation).
+
+If origin/master is updated, then the repo will be re-cloned.  This code will cause the repo to be re-cloned for example:
+
+```
+cd /root/path/tmp/test/frontend-generators
+git reset --hard HEAD~4
+```
+
+```ruby
+puller = RepoTools::Puller.new("git@github.com:MrPowers/frontend-generators.git", "/root/path", "test")
+puller.clean_and_clone
+```
 
 ## Installation
 
@@ -16,23 +37,9 @@ And then execute:
 
     $ bundle
 
-Or install it yourself as:
-
-    $ gem install repo_tools
-
-## Usage
-
-TODO: Write usage instructions here
-
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake rspec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
-
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/repo_tools.
+Bug reports and pull requests are welcome on GitHub at https://github.com/MrPowers/repo_tools.
 
 
 ## License
