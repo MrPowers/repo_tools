@@ -21,7 +21,8 @@ module RepoTools; class GitStatusChecker
   end
 
   def remote_sha
-    `git --git-dir #{git_dirname}/.git rev-parse origin/master`
+    `git -C #{git_dirname} remote update`
+    `git -C #{git_dirname} rev-parse origin/master`
   end
 
 end; end
