@@ -1,6 +1,10 @@
-desc 'test whether repotools is working'
+desc 'clone a git repo locally to make sure repo_tools is working'
 task :puller_test do
   root = Dir.pwd
-  puller = RepoTools::Puller.new("git@github.com:MrPowers/frontend-generators.git", root, "test")
+  args = {
+    ssh_clone_url: "git@github.com:MrPowers/frontend-generators.git",
+    destination_dirname: "#{root}/test/"
+  }
+  puller = RepoTools::Puller.new(args)
   puller.clean_and_clone
 end
